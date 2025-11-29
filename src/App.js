@@ -1,4 +1,3 @@
-import './App.css';
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { useState } from "react";
 import myData from "./my_data.json";
