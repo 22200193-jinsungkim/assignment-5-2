@@ -1,19 +1,10 @@
-import { useState, useEffect } from "react";
-import myData from "../my_data.json";
-
-function List() {
-  const [list, setList] = useState([]);
-
-  useEffect(() => {
-    setList(myData.GAME); 
-  }, []);
-
+function List({ list }) {
   return (
     <div className="container mt-4">
       <h2 className="text-center mb-4">게임 목록</h2>
 
       {list.length === 0 ? (
-        <p className="text-center">데이터를 불러오는 중...</p>
+        <p className="text-center">데이터가 없습니다.</p>
       ) : (
         <ul className="list-group">
           {list.map((item) => (
@@ -32,4 +23,3 @@ function List() {
 }
 
 export default List;
-
