@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
+import myData from "../my_data.json"; 
 
 function List() {
   const [list, setList] = useState([]);
 
   const getGame = () => {
-    fetch("http://localhost:3000/GAME")
-      .then((res) => res.json())
-      .then((data) => setList(data))
-      .catch((err) => console.error("데이터 로딩 오류:", err));
+    setList(myData);  
   };
 
   useEffect(() => {
@@ -20,7 +18,7 @@ function List() {
 
       {list.length === 0 ? (
         <p className="text-center">데이터를 불러오는 중...</p>
-      ) : (
+      ):(
         <ul className="list-group">
           {list.map((item) => (
             <li key={item.id} className="list-group-item">
