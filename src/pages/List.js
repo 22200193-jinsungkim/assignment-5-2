@@ -5,7 +5,7 @@ function List() {
   const [list, setList] = useState([]);
 
   useEffect(() => {
-    setList(myData.GAME);  // 🔥 이 줄이 핵심 (GAME 배열 사용)
+    setList(myData.GAME); 
   }, []);
 
   return (
@@ -32,3 +32,4 @@ function List() {
 }
 
 export default List;
+
