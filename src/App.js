@@ -11,7 +11,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
 
-  // 🔥 my_data.json의 GAME 배열을 state로 관리
   const [list, setList] = useState(myData.GAME);
 
   return (
