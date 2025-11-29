@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 
-function Update() {
+function Update({ list, setList }) {
   const [mode, setMode] = useState("create");
 
   const [createState, setCreateState] = useState({
@@ -39,53 +39,39 @@ function Update() {
     if (!createState.publisher) return cPublisher.current.focus();
     if (!createState.share) return cShare.current.focus();
 
-    fetch("http://localhost:3000/GAME", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(createState)
-    });
+    setList([...list, createState]);
   };
 
   const editGame = () => {
     if (!editState.id) return eId.current.focus();
-    if (!editState.name) return eName.current.focus();
-    if (!editState.publisher) return ePublisher.current.focus();
-    if (!editState.share) return eShare.current.focus();
 
-    fetch(`http://localhost:3000/GAME/${editState.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(editState)
-    });
+    setList(
+      list.map(item =>
+        item.id === editState.id
+          ? { ...item, ...editState }
+          : item
+      )
+    );
   };
 
   const deleteGame = () => {
     if (!deleteState.id) return dId.current.focus();
 
-    fetch(`http://localhost:3000/GAME/${deleteState.id}`, {
-      method: "DELETE"
-    });
+    setList(list.filter(item => item.id !== deleteState.id));
   };
 
   return (
     <div className="container mt-4">
 
       <div className="d-flex justify-content-center gap-3 mb-4">
-        <button className="btn btn-primary" onClick={() => setMode("create")}>
-          Create
-        </button>
-        <button className="btn btn-warning" onClick={() => setMode("edit")}>
-          Edit
-        </button>
-        <button className="btn btn-danger" onClick={() => setMode("delete")}>
-          Delete
-        </button>
+        <button className="btn btn-primary" onClick={() => setMode("create")}>Create</button>
+        <button className="btn btn-warning" onClick={() => setMode("edit")}>Edit</button>
+        <button className="btn btn-danger" onClick={() => setMode("delete")}>Delete</button>
       </div>
 
       {mode === "create" && (
         <div>
           <h3>Create</h3>
-          
           <input ref={cId} className="form-control mb-2" placeholder="id"
             value={createState.id}
             onChange={(e) => setCreateState({ ...createState, id: e.target.value })}/>
@@ -98,7 +84,6 @@ function Update() {
           <input ref={cShare} className="form-control mb-2" placeholder="share"
             value={createState.share}
             onChange={(e) => setCreateState({ ...createState, share: e.target.value })}/>
-
           <button className="btn btn-primary" onClick={createGame}>추가하기</button>
         </div>
       )}
@@ -106,7 +91,6 @@ function Update() {
       {mode === "edit" && (
         <div>
           <h3>Edit</h3>
-          
           <input ref={eId} className="form-control mb-2" placeholder="id"
             value={editState.id}
             onChange={(e) => setEditState({ ...editState, id: e.target.value })}/>
@@ -119,7 +103,6 @@ function Update() {
           <input ref={eShare} className="form-control mb-2" placeholder="share"
             value={editState.share}
             onChange={(e) => setEditState({ ...editState, share: e.target.value })}/>
-
           <button className="btn btn-success" onClick={editGame}>수정하기</button>
         </div>
       )}
@@ -127,11 +110,9 @@ function Update() {
       {mode === "delete" && (
         <div>
           <h3>Delete</h3>
-
           <input ref={dId} className="form-control mb-2" placeholder="삭제할 id"
             value={deleteState.id}
             onChange={(e) => setDeleteState({ id: e.target.value })}/>
-
           <button className="btn btn-danger" onClick={deleteGame}>삭제하기</button>
         </div>
       )}
